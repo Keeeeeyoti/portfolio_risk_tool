@@ -167,6 +167,7 @@ if 'alpha' not in st.session_state:
 
 with st.sidebar:
     st.title("📊 Portfolio Risk Tool")
+    st_button('github', 'https://github.com/Keeeeeyoti', 'Keeeeeyoti', icon_size)
     st.write("`Created by:`")
     linkedin_url = "www.linkedin.com/in/williamzhong456/"
     st.markdown(
