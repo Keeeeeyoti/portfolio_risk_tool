@@ -8,7 +8,7 @@ The Portfolio Risk Tool is a Python-based interactive web application built usin
 ## Resources Used
 Library used: numpy, pandas, yfinance, streamlit, datetime, matplotlib, statsmodels, requests
 
-Risk free rate used:'https://www.macrotrends.net/2492/1-year-treasury-rate-yield-chart'[0]
+Risk free rate used:'https://www.macrotrends.net/2492/1-year-treasury-rate-yield-chart'
 
 ## Features
 
