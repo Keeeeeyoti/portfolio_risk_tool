@@ -6,6 +6,7 @@ import datetime as dt
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import requests
+import webbrowser
 from st_functions import st_button, load_css
 
 #to do:
@@ -168,12 +169,9 @@ if 'alpha' not in st.session_state:
 
 with st.sidebar:
     st.title("📊 Portfolio Risk Tool")
-    st_button('github', 'https://github.com/Keeeeeyoti', 'Keeeeeyoti', icon_size)
     st.write("`Created by:`")
-    linkedin_url = "www.linkedin.com/in/williamzhong456/"
-    st.markdown(
-        f'<a href="{linkedin_url}" target="_blank" style="text-decoration: none; color: inherit;"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="25" height="25" style="vertical-align: middle; margin-right: 10px;">`William Zhong`</a>',
-        unsafe_allow_html=True)
+    if st.button('Keeeeeyoti'):
+        webbrowser.open('https://github.com/Keeeeeyoti')
 
     confidence_level = st.slider("Select the VaR confidence interval:", 0.90, 0.99, 0.95)
     holding_period = st.number_input("Enter the VaR holding period (days):", min_value=1, value=1)
