@@ -6,7 +6,6 @@ import datetime as dt
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import requests
-import webbrowser
 
 
 #to do:
@@ -169,9 +168,7 @@ if 'alpha' not in st.session_state:
 
 with st.sidebar:
     st.title("📊 Portfolio Risk Tool")
-    st.write("`Created by:`")
-    if st.button('Keeeeeyoti'):
-        webbrowser.open('https://github.com/Keeeeeyoti')
+    st.markdown("Created by:[Keeeeeyoti](https://github.com/Keeeeeyoti)")
 
     confidence_level = st.slider("Select the VaR confidence interval:", 0.90, 0.99, 0.95)
     holding_period = st.number_input("Enter the VaR holding period (days):", min_value=1, value=1)
