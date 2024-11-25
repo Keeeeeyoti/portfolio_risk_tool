@@ -6,4 +6,3 @@ datetime
 matplotlib.pyplot
 statsmodels.api
 requests
-python==3.11.2
