@@ -3,6 +3,6 @@ pandas
 yfinance
 streamlit
 datetime
-matplotlib.pyplot
-statsmodels.api
+matplotlib
+statsmodels
 requests
