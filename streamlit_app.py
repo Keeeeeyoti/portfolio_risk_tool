@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import requests
 import webbrowser
-from st_functions import st_button, load_css
+
 
 #to do:
 
