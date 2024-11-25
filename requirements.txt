@@ -6,3 +6,4 @@ datetime
 matplotlib
 statsmodels
 requests
+streamlit==1.22.0
