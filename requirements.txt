@@ -6,4 +6,5 @@ datetime
 matplotlib
 statsmodels
 requests
+webbrowser
 streamlit==1.22.0
