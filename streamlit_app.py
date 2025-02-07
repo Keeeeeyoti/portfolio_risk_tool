@@ -17,38 +17,83 @@ import requests
 
 
 # Function to fetch cryptocurrency data
-def get_return(tickers,weights,lookback_period):
+# def get_return(tickers,weights,lookback_period):
 
-    ### Set time from to a certain number of years
+#     ### Set time from to a certain number of years
+
+#     endDate = dt.datetime.now()
+#     startDate = endDate - dt.timedelta(days=lookback_period)
+
+#     ### Download the daily adjusted close prices for the tickers
+#     adj_close_df = pd.DataFrame()
+
+#     for ticker in tickers:
+#         data = yf.download(ticker)
+#         data_length = len(data)
+
+#         # Check if the lookback period is larger than the available data
+#         if lookback_period > data_length:
+#             st.error(f"Error: The lookback period of {lookback_period} days exceeds the available data of {ticker} "
+#                              f"period of {data_length} days. Please adjust the lookback period or start date.")
+#         else:
+#             # Proceed with calculations if lookback period is within available data length
+#             # Example: calculate rolling standard deviation
+#             data = yf.download(ticker, start=startDate, end=endDate)
+#             adj_close_df[ticker] = data['Adj Close']
+
+
+
+#     ### Calculate the daily log returns and drop any NAs
+#     log_returns = np.log(adj_close_df / adj_close_df.shift(1))
+#     for ticker in tickers:
+#         log_returns[ticker] = log_returns[ticker] * weights[tickers.index(ticker)]
+
+#     return log_returns.dropna()
+def get_return(tickers, weights, lookback_period):
+    """
+    Fetches cryptocurrency data, calculates log returns, and handles potential errors.
+
+    Args:
+        tickers: A list of ticker symbols.
+        weights: A list of weights for each ticker.
+        lookback_period: The lookback period in days for calculating returns.
+
+    Returns:
+        A pandas DataFrame containing the log returns for each ticker.
+        Returns None if no valid data is found for any of the tickers.
+    """
 
     endDate = dt.datetime.now()
     startDate = endDate - dt.timedelta(days=lookback_period)
-
-    ### Download the daily adjusted close prices for the tickers
     adj_close_df = pd.DataFrame()
 
-    for ticker in tickers:
-        data = yf.download(ticker)
-        data_length = len(data)
-
-        # Check if the lookback period is larger than the available data
-        if lookback_period > data_length:
-            st.error(f"Error: The lookback period of {lookback_period} days exceeds the available data of {ticker} "
-                             f"period of {data_length} days. Please adjust the lookback period or start date.")
-        else:
-            # Proceed with calculations if lookback period is within available data length
-            # Example: calculate rolling standard deviation
+    for i, ticker in enumerate(tickers):
+        try:
             data = yf.download(ticker, start=startDate, end=endDate)
-            adj_close_df[ticker] = data['Adj Close']
+            if 'Adj Close' in data.columns:
+                adj_close_df[ticker] = data['Adj Close'] 
+            else:
+                st.warning(f"Error: 'Adj Close' column not found for {ticker}. Skipping.")
+        except Exception as e:
+            st.warning(f"Error downloading data for {ticker}: {e}") 
+            continue 
 
+    # Check if any data was successfully downloaded
+    if adj_close_df.empty:
+        st.error("No valid data found for any of the selected tickers.")
+        return None 
 
+    # Handle potential issues with data (e.g., all NaN values)
+    if adj_close_df.isnull().all().all(): 
+        st.error("All downloaded data contains only NaN values.")
+        return None
 
-    ### Calculate the daily log returns and drop any NAs
     log_returns = np.log(adj_close_df / adj_close_df.shift(1))
-    for ticker in tickers:
-        log_returns[ticker] = log_returns[ticker] * weights[tickers.index(ticker)]
+    for i in range(len(tickers)):
+        log_returns[tickers[i]] = log_returns[tickers[i]] * weights[i] 
 
     return log_returns.dropna()
+
 
 def calculate_parametric_var(returns, confidence_level,holding_period, portfolio_value):
 
