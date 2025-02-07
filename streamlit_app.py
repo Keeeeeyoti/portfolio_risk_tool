@@ -15,7 +15,7 @@ import requests
 ## stop monte carlo from rerunning?? but thats the whole point
 ## put it on online/streamlit cloud
 
-@st.cache_data
+
 # Function to fetch cryptocurrency data
 def get_return(tickers,weights,lookback_period):
 
