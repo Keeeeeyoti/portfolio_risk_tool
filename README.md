@@ -11,15 +11,15 @@ Library used: numpy, pandas, yfinance, streamlit, datetime, matplotlib, statsmod
 
 Risk free rate used:'https://www.macrotrends.net/2492/1-year-treasury-rate-yield-chart'
 
-## Features
+## Features/Considertions
 
-* ### Value-at-Risk (VaR) calculations
+* ### Value-at-Risk (VaR) Calculations
   User can define confidence level, holding period, lookback period, and select parametric or historical method for VaR calculation. Risk tool also provides a visualisation of the portfolio gain/loss.
 
-* ### Risk metrics
+* ### Risk Metrics
   Risk tool calculates the portfolio annual return, alpha and beta with the selected benchmark index and 1 year treasury as the risk free rate. The performance of user's portfolio is compared with the benchmark index for the lookback period in a line chart.
 
-* ### Data cleaning for products of different trading schedule
+* ### Data Cleaning for Different Trading Schedule
   Risk tool will disregard crypto weekend price when portfolio contains both crypto and stock. This approach is chosen as opposed to creating dummy value for weekend prices for stock to ensure the integrity of all data points. Though this approach requires a longer lookback period to produce statistically significant results.
 
 * ### Upcoming: Stress Test Integration
