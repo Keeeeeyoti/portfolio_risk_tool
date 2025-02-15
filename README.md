@@ -22,6 +22,8 @@ Risk free rate used:'https://www.macrotrends.net/2492/1-year-treasury-rate-yield
 * ### Data cleaning for products of different trading schedule
   Risk tool will disregard crypto weekend price when portfolio contains both crypto and stock. This approach is chosen as opposed to creating dummy value for weekend prices for stock to ensure the integrity of all data points. Though this approach requires a longer lookback period to produce statistically significant results.
 
+* ### Upcoming: Stress Test Integration
+
 ## Demonstration
 
 ![demonstration](demonstration1.jpg)
