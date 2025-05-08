@@ -1,9 +1,9 @@
 numpy 
 pandas
-yfinance ==0.2.50
+yfinance 
 streamlit
 datetime
 matplotlib
 statsmodels
 requests
-streamlit==1.22.0
+streamlit
