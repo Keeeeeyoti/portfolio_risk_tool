@@ -9,11 +9,8 @@ import requests
 
 
 #to do:
-
-##database?
 ##study RBA doco and update the tool, the three different methods
-## stop monte carlo from rerunning?? but thats the whole point
-## put it on online/streamlit cloud
+
 
 
 # Function to fetch cryptocurrency data
@@ -28,18 +25,28 @@ def get_return(tickers,weights,lookback_period):
     adj_close_df = pd.DataFrame()
 
     for ticker in tickers:
-        data = yf.download(ticker)
-        data_length = len(data)
 
+        try:
+            test = yf.Ticker(ticker)
+            test_data = test.history(period="max", interval="1d")
+            if test_data.empty:
+                st.error(f"Error: Ticker '{ticker}' could not be found on Yahoo Finance.")
+                st.stop()
+        except KeyError as e:
+            st.error(f"KeyError: {e}. The ticker '{ticker}' might not be available.")
+            st.stop()
+            
         # Check if the lookback period is larger than the available data
-        if lookback_period > data_length:
-            st.error(f"Error: The lookback period of {lookback_period} days exceeds the available data of {ticker} "
-                             f"period of {data_length} days. Please adjust the lookback period or start date.")
         else:
-            # Proceed with calculations if lookback period is within available data length
-            # Example: calculate rolling standard deviation
-            data = yf.download(ticker, start=startDate, end=endDate)
-            adj_close_df[ticker] = data['Adj Close']
+            data_length = len(test_data)
+            if lookback_period > data_length:
+                st.error(f"Error: The lookback period of {lookback_period} days exceeds the available data of {ticker} "
+                                f"period of {data_length} days. Please adjust the lookback period or start date.")
+            else:
+
+                data = yf.download(ticker, start=startDate, end=endDate)
+                adj_close_df[ticker] = data['Close']
+
 
 
 
@@ -186,12 +193,17 @@ with tab1:
     asset = st.text_input("Enter the ticker (e.g., BTC-USD):", "BTC-USD")
     allocation = st.number_input("Enter USD value of current allocation", min_value=1, value=1)
     if st.button('Enter allocation'):
-        data = yf.Ticker(asset).history(period="1d")
-        if data.empty:
-            st.write(f"Error: Ticker '{asset}' could not be found on Yahoo Finance.")
+        try:
+            test = get_return([asset], [1], lookback_period)
+
+                
+        except Exception as e:
+            st.error(f"An error occurred while processing the ticker '{asset}': {e}")
+            st.stop()
+
         else:
-            st.session_state.df.loc[len(st.session_state.df)] = [asset, allocation]
             st.write('Input success')
+            st.session_state.df.loc[len(st.session_state.df)] = [asset, allocation]
     if st.button('Clear alloction'):
         st.session_state.df = st.session_state.df.iloc[0:0]
 
@@ -208,7 +220,11 @@ with tab2:
         tickers = st.session_state.df.iloc[:, 0].tolist()
         allocation = st.session_state.df.iloc[:, 1].tolist()
         weights = allocation / np.sum(allocation)
-        returns = get_return(tickers, weights,lookback_period)
+        try:
+            returns = get_return(tickers, weights, lookback_period)
+        except Exception as e:
+            st.error(f"An error occurred while fetching returns: {e}")
+            st.stop()
         portfolio_value = np.sum(allocation)
         var_value, var_plt = calculate_var(returns, confidence_level, holding_period, method, portfolio_value)
 
