@@ -7,7 +7,7 @@ https://portfoliorisktool.streamlit.app/
 The Portfolio Risk Tool is a Python-based interactive web application built using Streamlit to help assess the market risk of a given portfolio. It produces Value-at-Risk (VaR) calculations and portfolio performance metrics such as alpha, beta, and annualized returns. The tool allows users to input their personalised porfolio, performs risk assessments, and visualizes portfolio analytics, helping users understand their specifc market risk.
 
 ## Resources Used
-Library used: numpy, pandas, yfinance, streamlit, datetime, matplotlib, statsmodels, requests
+Key library used: numpy, pandas, yfinance, streamlit, datetime, matplotlib, statsmodels, requests
 
 Risk free rate used:'https://www.macrotrends.net/2492/1-year-treasury-rate-yield-chart'
 
